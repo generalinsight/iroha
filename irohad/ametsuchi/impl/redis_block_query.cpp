@@ -17,15 +17,15 @@
 
 #include "ametsuchi/impl/redis_block_query.hpp"
 
-#include "ametsuchi/impl/flat_file/flat_file.hpp"
+#include "ametsuchi/impl/block_storage.hpp"
 #include "model/sha3_hash.hpp"
 
 namespace iroha {
   namespace ametsuchi {
 
     RedisBlockQuery::RedisBlockQuery(cpp_redis::client &client,
-                                     FlatFile &file_store)
-        : block_store_(file_store), client_(client) {}
+                                     BlockStorage &bs)
+        : block_store_(bs), client_(client) {}
 
     rxcpp::observable<model::Block> RedisBlockQuery::getBlocks(uint32_t height,
                                                                uint32_t count) {
@@ -38,7 +38,7 @@ namespace iroha {
       return rxcpp::observable<>::range(height, to).flat_map([this](auto i) {
         auto bytes = block_store_.get(i);
         return rxcpp::observable<>::create<model::Block>([this, bytes](auto s) {
-          if (not bytes.has_value()) {
+          if (not bytes) {
             s.on_completed();
             return;
           }
