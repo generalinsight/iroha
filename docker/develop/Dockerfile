@@ -200,7 +200,7 @@ RUN git clone git://github.com/hyperledger/iroha-ed25519.git /tmp/ed25519; \
     rm -rf /tmp/ed25519
 
 RUN git clone https://github.com/warchant/NuDB.git /tmp/nudb; \
-    (cd /tmp/nudb; git checkout 4535601bb71c578061edd3c3c9098d828ae12b5b); \
+    (cd /tmp/nudb; git checkout 6b4779f737d72038c716d0ecbc0701411dff083e); \
     cp -R /tmp/nudb/include/nudb /usr/local/include; \
     rm -rf /tmp/nudb
 

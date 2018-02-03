@@ -1,5 +1,5 @@
 /**
- * Copyright Soramitsu Co., Ltd. 2017 All Rights Reserved.
+ * Copyright Soramitsu Co., Ltd. 2018 All Rights Reserved.
  * http://soramitsu.co.jp
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -149,7 +149,7 @@ TEST_F(BlStore_Test, WriteThenReadSequential) {
     ASSERT_EQ(total + 1, bs->total_keys());
 
     auto item = bs->get(i);
-    if (!item) {
+    if (not item) {
       FAIL() << "wrote item " << i << " then read empty";
     } else {
       ASSERT_EQ(*item, v);

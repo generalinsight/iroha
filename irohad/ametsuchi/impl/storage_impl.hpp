@@ -26,9 +26,9 @@
 #include <pqxx/pqxx>
 #include <shared_mutex>
 
+#include "ametsuchi/impl/block_storage.hpp"
 #include "logger/logger.hpp"
 #include "model/converters/json_block_factory.hpp"
-#include "ametsuchi/impl/block_storage.hpp"
 
 namespace iroha {
   namespace ametsuchi {

@@ -163,7 +163,7 @@ namespace iroha {
       nudb::erase_file(db_->log_path(), ec2);
       nudb::erase_file(db_->key_path(), ec3);
 
-      return !(ec1 || ec2 || ec3);
+      return not(ec1 or ec2 or ec3);
     }
 
     uint32_t BlockStorage::Impl::count_blocks(nudb::error_code &ec) {
@@ -191,7 +191,7 @@ namespace iroha {
           // some other error occurred
           return 0;
         }
-      } while (!found_last);
+      } while (not found_last);
 
       return current;
     }

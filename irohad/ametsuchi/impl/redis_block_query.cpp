@@ -30,12 +30,10 @@ namespace iroha {
     rxcpp::observable<model::Block> RedisBlockQuery::getBlocks(uint32_t height,
                                                                uint32_t count) {
       size_t total = block_store_.total_keys();
-      if (height >= total or count == 0) {
+      auto to = std::min(static_cast<uint32_t>(total), height + count);
+      if (height > to or count == 0) {
         return rxcpp::observable<>::empty<model::Block>();
       }
-
-      // total here is guaranteed to be > 0
-      auto to = std::min(static_cast<uint32_t>(total), height + count);
 
       return rxcpp::observable<>::range(height, to).flat_map([this](auto i) {
         auto bytes = block_store_.get(i);

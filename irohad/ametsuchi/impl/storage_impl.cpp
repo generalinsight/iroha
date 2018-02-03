@@ -34,7 +34,7 @@ namespace iroha {
     const char *kTmpWsv = "TemporaryWsv";
 
     ConnectionContext::ConnectionContext(
-        std::unique_ptr<FlatFile> block_store,
+        std::unique_ptr<BlockStorage> block_store,
         std::unique_ptr<cpp_redis::client> index,
         std::unique_ptr<pqxx::lazyconnection> pg_lazy,
         std::unique_ptr<pqxx::nontransaction> pg_nontx)
