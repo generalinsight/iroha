@@ -183,7 +183,9 @@ DROP TABLE IF EXISTS role;
 
       // erase blocks
       log_->info("drop block store");
-      block_store_->drop_all();
+      if (not block_store_->drop_all()) {
+        log_->error("can not remove block storage");
+      }
     }
 
     nonstd::optional<ConnectionContext> StorageImpl::initConnections(
