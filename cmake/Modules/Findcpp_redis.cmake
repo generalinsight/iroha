@@ -19,13 +19,16 @@ set(URL https://github.com/Cylix/cpp_redis.git)
 set(VERSION f390eef447a62dcb6da288fb1e91f25f8a9b838c)
 set_target_description(cpp_redis "C++ redis client" ${URL} ${VERSION})
 
+iroha_get_lib_name(CPPREDISLIB cpp_redis STATIC)
+iroha_get_lib_name(TACOPIELIB  tacopie   STATIC)
+
 if (NOT cpp_redis_FOUND)
   externalproject_add(cylix_cpp_redis
       GIT_REPOSITORY ${URL}
       GIT_TAG        ${VERSION}
       BUILD_BYPRODUCTS
-        ${EP_PREFIX}/src/cylix_cpp_redis-build/lib/libcpp_redis.a
-        ${EP_PREFIX}/src/cylix_cpp_redis-build/lib/libtacopie.a
+        ${EP_PREFIX}/src/cylix_cpp_redis-build/lib/${CPPREDISLIB}
+        ${EP_PREFIX}/src/cylix_cpp_redis-build/lib/${TACOPIELIB}
       INSTALL_COMMAND "" # remove install step
       UPDATE_COMMAND "" # remove update step
       TEST_COMMAND "" # remove test step
@@ -33,16 +36,17 @@ if (NOT cpp_redis_FOUND)
   externalproject_get_property(cylix_cpp_redis source_dir binary_dir)
 
   if(CMAKE_GENERATOR STREQUAL "Xcode")
-    set(cpp_redis_LIBRARY ${binary_dir}/lib/Debug/libcpp_redis.a)
-    set(tacopie_LIBRARY ${binary_dir}/lib/Debug/libtacopie.a)
+    set(cpp_redis_LIBRARY ${binary_dir}/lib/${CMAKE_BUILD_TYPE}/${CPPREDISLIB})
+    set(tacopie_LIBRARY   ${binary_dir}/lib/${CMAKE_BUILD_TYPE}/${TACOPIELIB})
   else ()
-    set(cpp_redis_LIBRARY ${binary_dir}/lib/libcpp_redis.a)
-    set(tacopie_LIBRARY ${binary_dir}/lib/libtacopie.a)
+    set(cpp_redis_LIBRARY ${binary_dir}/lib/${CPPREDISLIB})
+    set(tacopie_LIBRARY   ${binary_dir}/lib/${TACOPIELIB})
   endif ()
 
   set(cpp_redis_INCLUDE_DIRS "${source_dir}/tacopie/includes;${source_dir}/includes")
-  file(MAKE_DIRECTORY ${source_dir}/tacopie/includes)
-  file(MAKE_DIRECTORY ${source_dir}/includes)
+  foreach(include ${cpp_redis_INCLUDE_DIRS})
+      file(MAKE_DIRECTORY ${include})
+  endforeach()
 
   add_dependencies(cpp_redis cylix_cpp_redis)
 endif ()

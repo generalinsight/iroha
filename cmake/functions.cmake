@@ -130,3 +130,14 @@ macro(get_git_revision commit)
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
   )
 endmacro()
+
+
+function(iroha_get_lib_name out lib type)
+  if(type STREQUAL "STATIC")
+    set(${out} ${CMAKE_STATIC_LIBRARY_PREFIX}${lib}${CMAKE_STATIC_LIBRARY_SUFFIX} PARENT_SCOPE)
+  elseif(type STREQUAL "SHARED")
+    set(${out} ${CMAKE_SHARED_LIBRARY_PREFIX}${lib}${CMAKE_SHARED_LIBRARY_SUFFIX} PARENT_SCOPE)
+  else()
+    message(FATAL_ERROR "type can be either STATIC or SHARED")
+  endif()
+endfunction()
