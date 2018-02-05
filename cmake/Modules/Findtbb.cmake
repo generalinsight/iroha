@@ -24,7 +24,7 @@ if (NOT tbb_FOUND)
       GIT_REPOSITORY  ${URL}
       GIT_TAG         ${VERSION}
       BUILD_IN_SOURCE 1
-      BUILD_COMMAND   $(MAKE) tbb_build_prefix=build
+      BUILD_COMMAND   ${MAKE} tbb_build_prefix=build
       BUILD_BYPRODUCTS
           ${EP_PREFIX}/src/01org_tbb/build/build_debug/${DLIB}
           ${EP_PREFIX}/src/01org_tbb/build/build_release/${RLIB}
